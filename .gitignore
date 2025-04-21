@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+
+# VS Code settings
+.vscode/
+
+# OS Files
+.DS_Store
+
+# Database (optional)
+*.db
