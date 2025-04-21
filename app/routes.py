@@ -27,8 +27,7 @@ def download_model_from_drive():
     # Your new file ID
     file_id = "19zF2IVTMhnVScgoSWFnH9e67eUqlevzJ"
     download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
-    zip_path = "model.zip"
-
+    
     try:
         response = requests.get(download_url, stream=True)
         response.raise_for_status()
