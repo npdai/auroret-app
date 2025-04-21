@@ -18,8 +18,6 @@ venv/
 # OS Files
 .DS_Store
 
-# Database files
-*.db
 
 # Large model folder
 ce_45_DR-DME_model/
