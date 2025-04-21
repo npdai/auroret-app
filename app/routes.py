@@ -22,19 +22,15 @@ main = Blueprint('main', __name__)
 MODEL_PATH = 'ce_45_DR-DME_model'
 
 def download_model_from_drive():
-    def download_model_from_drive():
-        print("🟡 Model not found. Downloading from Google Drive...")
+    print("🟡 Model not found. Downloading from Google Drive...")
 
     try:
-        # File ID from your shared Google Drive link
+        # Google Drive file ID
         file_id = "19WPyoHUGqLubxgzfsqkGc9Xhs29JX4F-"
         output = "ce_45_DR-DME_model.zip"
 
-        # Construct and download
         gdown.download(f"https://drive.google.com/uc?id={file_id}", output, quiet=False)
 
-        # Unzip
-        import zipfile
         with zipfile.ZipFile(output, 'r') as zip_ref:
             zip_ref.extractall()
 
@@ -43,6 +39,19 @@ def download_model_from_drive():
 
     except Exception as e:
         print("❌ Model download failed:", e)
+
+# 🛠️ Global variable for inference
+infer = None
+
+# 🔁 Only download if model doesn't exist
+if not os.path.exists(MODEL_PATH):
+    download_model_from_drive()
+
+try:
+    model = tf.saved_model.load(MODEL_PATH)
+    infer = model.signatures["serving_default"]
+except Exception as e:
+    print("❌ Model loading failed:", e)
 
 
 
