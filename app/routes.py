@@ -9,15 +9,47 @@ import numpy as np # type: ignore
 import io
 from fpdf import FPDF # type: ignore
 from flask import send_file # type: ignore
+import requests
+import zipfile
 
 
 
 
 main = Blueprint('main', __name__)
 
+
+main = Blueprint('main', __name__)
+
 MODEL_PATH = 'ce_45_DR-DME_model'
+
+def download_model_from_drive():
+    print("🟡 Model not found. Downloading from Google Drive...")
+
+    drive_url = "https://drive.google.com/uc?export=download&id=19WPyoHUGqLubxgzfsqkGc9Xhs29JX4F-"
+    zip_path = "model.zip"
+
+    try:
+        with requests.get(drive_url, stream=True) as r:
+            r.raise_for_status()
+            with open(zip_path, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall()
+
+        os.remove(zip_path)
+        print("✅ Model downloaded and extracted.")
+    except Exception as e:
+        print("❌ Model download failed:", e)
+
+# ✅ Download if not exists, then load
+if not os.path.exists(MODEL_PATH):
+    download_model_from_drive()
+
 model = tf.saved_model.load(MODEL_PATH)
 infer = model.signatures["serving_default"]
+
 
 
 def resize_fundus_image(input_path, output_path, size=(779, 779)):
