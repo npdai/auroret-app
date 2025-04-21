@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuroRet - Retinal Health Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/search.css') }}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="{{ url_for('main.index') }}">AuroRet</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.image_analysis') }}">Image Analysis</a></li>
+                    <li><a href="#">Dr. {{ session['doctor_name'] }}</a></li>
+                    <li class="user-circle">
+                        <a href="#" id="profile-icon">{{ session['doctor_name'][0] | upper }}</a>
+                        <ul class="dropdown-menu" id="profile-dropdown">
+                            <li>
+                                <a href="{{ url_for('main.logout') }}" class="logout-button">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="button-container">
+        <a href="{{ url_for('main.patient_register') }}" class="option-button">Register Patient</a>
+        <a href="{{ url_for('main.patient_search') }}" class="option-button">Search Records</a>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2025 AuroRet. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Profile Dropdown -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let profileIcon = document.getElementById("profile-icon");
+            let dropdownMenu = document.getElementById("profile-dropdown");
+
+            profileIcon.addEventListener("click", function (event) {
+                event.preventDefault();
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", function (event) {
+                if (!profileIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

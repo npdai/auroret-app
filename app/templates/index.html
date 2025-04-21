@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuroRet - Doctor Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/login.css') }}">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AuroRet</h1>
+    </div>
+    
+    <div class="container">
+        <h2 class="login-title">Login to Doctor Portal</h2>
+
+        <!-- Flash message display -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul>
+              {% for category, message in messages %}
+                <li style="color: {% if category == 'error' %}red{% else %}green{% endif %}; font-weight: bold;">
+                  {{ message }}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Login form -->
+        <form action="{{ url_for('main.login') }}" method="post">
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            
+            <div class="form-group password-field">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                <span class="password-toggle">👁️</span>
+            </div>
+            
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <!-- <a href="#" class="forgot-link">Forgot password?</a> -->
+
+            </div>
+            
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        
+        <div class="signup-link">
+            Don't have an account? <a href="{{ url_for('main.register') }}">Create one</a>
+        </div>
+    </div>
+
+    <!-- JavaScript for Password Toggle -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const passwordField = document.querySelector(".password-field input");
+            const toggleIcon = document.querySelector(".password-toggle");
+
+            toggleIcon.addEventListener("click", function () {
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    toggleIcon.textContent = "🔒"; // Change icon when password is visible
+                } else {
+                    passwordField.type = "password";
+                    toggleIcon.textContent = "👁️"; // Change icon back when hidden
+                }
+            });
+        });
+    </script>
+</body>
+</html>

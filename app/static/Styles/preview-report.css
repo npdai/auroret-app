@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+}
+
+.report-header .aurolab-logo img {
+    height: 30px;
+}
+
+.report-header .center-title {
+    background-color: #2e7b91;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.report-header input[type="text"] {
+    padding: 6px 12px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.info-section {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+}
+
+.info-section h5 {
+    background: #ccc;
+    padding: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.table td {
+    padding: 8px;
+    vertical-align: top;
+    font-size: 13px;
+}
+
+.centered {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 15px;
+    width: 200px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    page-break-inside: avoid;
+    text-align: center;
+}
+
+.text-center img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+}
+
+.footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    page-break-inside: avoid;
+}
+
+.footer .col {
+    text-align: center;
+    border: none;
+}
+
+.aurolab-logo {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    page-break-inside: avoid;
+}
+
+.aurolab-logo img {
+    height: 30px;
+}
+
+.aurolab-logo .icons img {
+    margin-right: 5px;
+    height: 20px;
+}
+
+button.btn-download {
+    display: block;
+    margin: 30px auto 0 auto;
+    padding: 10px 25px;
+    background-color: #1E90B0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button.btn-download:hover {
+    background-color: #117a8b;
+}
+
+#pdfContent {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+}
+
+* {
+    page-break-inside: avoid;
+    page-break-after: auto;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuroRet - Search Patient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="{{ url_for('main.home') }}">AuroRet</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.image_analysis') }}">Image Analysis</a></li>
+                    <li><a href="#">Dr. {{ session['doctor_name'] }}</a></li>
+                    <li class="user-circle"><a href="#">{{ session['doctor_name'][0] | upper }}</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="search-page">
+        <div class="container">
+            <h1 class="page-title">Search Patient Records</h1>
+
+            <!-- 🔍 Search form -->
+            <form method="POST" action="{{ url_for('main.patient_search') }}">
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" name="search_query" placeholder="Search by name or Patient ID" required>
+                        <span class="search-icon">⌕</span>
+                    </div>
+                    <button type="submit" class="btn-primary search-btn">Search</button>
+                </div>
+            </form>
+
+            <!-- 📋 Results -->
+            {% if patients %}
+                <div class="results-table">
+                    <h3>Search Results:</h3>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Patient ID</th>
+                                <th>Contact</th>
+                                <th>Visit Date</th>
+                                <th>DOB</th>
+                                <th>Medical History</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in patients %}
+                                <tr>
+                                    <td>{{ p['name'] }}</td>
+                                    <td>{{ p['age'] }}</td>
+                                    <td>{{ p['gender'] }}</td>
+                                    <td>{{ p['patient_id'] }}</td>
+                                    <td>{{ p['contact'] }}</td>
+                                    <td>{{ p['visit_date'] }}</td>
+                                    <td>{{ p['dob'] }}</td>
+                                    <td>{{ p['medical_history'] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AuroRet. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

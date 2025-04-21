@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuroRet - Patient Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="{{ url_for('main.index') }}">AuroRet</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.image_analysis') }}">Image Analysis</a></li>
+                    <li><a href="#">Dr. {{ session['doctor_name'] }}</a></li>
+                    <li class="user-circle"><a href="#">{{ session['doctor_name'][0] | upper }}</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="registration-page">
+        <div class="container">
+            <h1 class="page-title">New Patient Registration</h1>
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <ul>
+                  {% for category, message in messages %}
+                    <li style="color: {% if category == 'error' %}red{% else %}green{% endif %}; font-weight: bold;">
+                      {{ message }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+
+            <form class="registration-form" action="{{ url_for('main.patient_register') }}" method="post">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" placeholder="Enter patient's name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="text" name="age" placeholder="Enter patient's age" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Trans">Trans</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="patient_id">Patient ID</label>
+                        <input type="text" name="patient_id" placeholder="Enter patient's ID" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dob">DOB</label>
+                        <input type="date" class="form-" name="dob" placeholder="DD/MM/YYYY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Contact Info</label>
+                        <input type="text" name="contact" placeholder="Enter patient's contact information" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="visit_date">Date of visit</label>
+                        <input type="date" name="visit_date" placeholder="DD/MM/YYYY" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="medical_history">Medical History</label>
+                        <textarea name="medical_history" placeholder="Type....."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row center">
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AuroRet. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

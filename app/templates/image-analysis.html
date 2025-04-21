@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuroRet Modal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/image_analysis.css') }}">
+    <style>
+        .flash-messages {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="{{ url_for('main.home') }}">AuroRet</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.image_analysis') }}">Image Analysis</a></li>
+                    <li><a href="#">Dr. {{ session['doctor_name'] }}</a></li>
+                    <li class="user-circle"><a href="#">{{ session['doctor_name'][0] | upper }}</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ✅ Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <main>
+        <div class="container">
+            <div class="modal">
+                <!-- Image Analysis Card (Left) -->
+                <form class="card" method="POST" action="{{ url_for('main.image_analysis') }}" enctype="multipart/form-data">
+                    <h2>Image Analysis</h2>
+                    <input type="text" name="patient_id" placeholder="Enter Patient ID" required>
+
+                    <!-- Dropdown for OD/OS -->
+                    <select name="OD_OS" required>
+                        <option value="" disabled selected>Select OD/OS</option>
+                        <option value="OD">OD (Right eye)</option>
+                        <option value="OS">OS (Left eye)</option>
+                    </select>
+
+                    <input type="file" name="image" id="fileInput" accept=".jpg, .jpeg, .png" required>
+                    <label for="fileInput" class="file-label">Choose file</label>
+
+                    <!-- Image Preview -->
+                    <div class="image-preview">
+                        <img id="previewImage" src="#" alt="Preview" style="max-width: 100%; display: none;" />
+                    </div>
+
+                    <button type="submit" class="btn predict">Predict</button>
+                </form>
+
+                <!-- Analysis Result Card (Right) -->
+                {% if result %}
+                <div class="card">
+                    <h2>Analysis Result</h2>
+
+                    <!-- Preprocessed Image Preview -->
+                    <div class="result-preview">
+                        <img src="{{ result['image_path'] }}" alt="Processed" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;" />
+                    </div>
+
+                    <p><strong>DR:</strong> {{ result['DR'] }}</p>
+                    <p><strong>DME:</strong> {{ result['DME'] }}</p>
+
+                    <div class="btn-group">
+                        <!-- Save Button Form -->
+                        <form method="POST" action="{{ url_for('main.save_result') }}">
+                            <input type="hidden" name="patient_id" value="{{ result['patient_id'] }}">
+                            <input type="hidden" name="dr" value="{{ result['DR'] }}">
+                            <input type="hidden" name="dme" value="{{ result['DME'] }}">
+                            <input type="hidden" name="image_path" value="{{ result['image_path'] }}">
+                            <button type="submit" class="btn save">Save</button>
+                        </form>
+
+                        <!-- Download Button Form -->
+                        <form method="GET" action="{{ url_for('main.preview_report', patient_id=result['patient_id']) }}">
+                            <button type="submit" class="btn download">Preview Report</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content"></div>
+            <div class="copyright">
+                <p>&copy; 2025 AuroRet. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Original Image Preview Script -->
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const previewImage = document.getElementById('previewImage');
+
+        fileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                previewImage.style.display = "block";
+
+                reader.addEventListener("load", function () {
+                    previewImage.setAttribute("src", this.result);
+                });
+
+                reader.readAsDataURL(file);
+            } else {
+                previewImage.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

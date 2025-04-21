@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - AuroRet</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/register.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">AuroRet</h1>
+    </div>
+    <div class="container">
+        <div class="form-box">
+
+            <!-- 🔔 Flash messages (success or error) -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <ul>
+                  {% for category, message in messages %}
+                    <li style="color: {% if category == 'error' %}red{% else %}green{% endif %}; font-weight: bold;">
+                      {{ message }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+
+            <h2>Create Account</h2>
+            <form action="{{ url_for('main.register') }}" method="post">
+                <input type="text" name="full_name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+
+                <div class="password-field">
+                    <input type="password" name="password" placeholder="Password" required>
+                    <span class="eye-icon">👁️</span>
+                </div>
+                <div class="password-field">
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                    <span class="eye-icon">👁️</span>
+                </div>
+
+                <input type="tel" name="phone" placeholder="Phone number" required>
+                <input type="text" name="medical_reg_no" placeholder="Medical Register number" required>
+                <input type="text" name="hospital" placeholder="Clinical or Hospital name" required>
+
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+
+            <p class="login-text">Already have an account? <a href="{{ url_for('main.index') }}">Log in</a></p>
+        </div>
+    </div>
+</body>
+</html>
