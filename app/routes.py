@@ -24,34 +24,36 @@ MODEL_PATH = 'ce_45_DR-DME_model'
 def download_model_from_drive():
     print("🟡 Model not found. Downloading from Google Drive...")
 
-    # Your new file ID
-    file_id = "19zF2IVTMhnVScgoSWFnH9e67eUqlevzJ"
-    download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
-    
     try:
-        response = requests.get(download_url, stream=True)
-        response.raise_for_status()
-        with open(zip_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
+        # ✅ New Google Drive File ID
+        file_id = "19zF2IVTMhnVScgoSWFnH9e67eUqlevzJ"
+        output = "ce_45_DR-DME_model.zip"
 
-        # Extract the zip
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        # ⬇️ Download from Google Drive
+        gdown.download(f"https://drive.google.com/uc?id={file_id}", output, quiet=False)
+
+        # 📦 Extract the zip
+        with zipfile.ZipFile(output, 'r') as zip_ref:
             zip_ref.extractall()
 
-        os.remove(zip_path)
-        print("✅ Model downloaded and extracted successfully.")
+        os.remove(output)
+        print("✅ Model downloaded and extracted.")
 
     except Exception as e:
         print("❌ Model download failed:", e)
 
-# Trigger download only if model folder doesn't exist
+# 🛠️ Global variable for inference
+infer = None
+
+# 🔁 Only download if model doesn't exist
 if not os.path.exists(MODEL_PATH):
     download_model_from_drive()
 
-# Load the model
-model = tf.saved_model.load(MODEL_PATH)
-infer = model.signatures["serving_default"]
+try:
+    model = tf.saved_model.load(MODEL_PATH)
+    infer = model.signatures["serving_default"]
+except Exception as e:
+    print("❌ Model loading failed:", e)
 
 
 def resize_fundus_image(input_path, output_path, size=(779, 779)):
