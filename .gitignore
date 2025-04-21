@@ -1,7 +1,9 @@
-# Python
+# Python bytecode and cache
 __pycache__/
 *.py[cod]
 *.so
+
+# Python packaging
 *.egg
 *.egg-info/
 dist/
@@ -10,11 +12,14 @@ build/
 # Virtual Environment
 venv/
 
-# VS Code settings
+# IDE settings
 .vscode/
 
 # OS Files
 .DS_Store
 
-# Database (optional)
+# Database files
 *.db
+
+# Large model folder
+ce_45_DR-DME_model/
