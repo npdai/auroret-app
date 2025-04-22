@@ -52,7 +52,9 @@ if not os.path.exists(MODEL_PATH):
 try:
     model = tf.saved_model.load(MODEL_PATH)
     infer = model.signatures["serving_default"]
+    print("✅ Model loaded successfully.")
 except Exception as e:
+    infer = None  # Important!
     print("❌ Model loading failed:", e)
 
 
@@ -71,9 +73,12 @@ def image_to_byte_string(image_array):
 
 
 def predict(image_array, infer):
+    if infer is None:
+        raise ValueError("❌ Inference function (infer) is not loaded properly.")
     image_string = image_to_byte_string(image_array)
     inputs = {'input_image': tf.constant([image_string])}
     return infer(**inputs)
+
 
 
 def get_result(data):
