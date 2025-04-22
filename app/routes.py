@@ -26,7 +26,7 @@ def download_model_from_drive():
 
     try:
         # ✅ New Google Drive File ID
-        file_id = "19zF2IVTMhnVScgoSWFnH9e67eUqlevzJ"
+        file_id = "19TYGlwoh2EWvgv_tj_kG8dpb24nGMkfc"
         output = "ce_45_DR-DME_model.zip"
 
         # ⬇️ Download from Google Drive
